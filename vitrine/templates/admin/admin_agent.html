@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'agent/css/index.css' %}"/>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="logo-apple"></ion-icon>
+                        </span>
+                        <span class="title">GESIMO</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'admin_index' %}">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'admin_agent' %}">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Agent immobilier</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'admin_client' %}">
+                        <span class="icon">
+                            <ion-icon name="chatbubble-outline"></ion-icon>
+                        </span>
+                        <span class="title">Client</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'admin_profile' %}">
+                        <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                        </span>
+                        <span class="title">Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                        <span class="title">Blog</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Mot de passe</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'login_attempt' %}">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Deconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+
+                <div class="user">
+                    <img src="{{ user.profile.image_profile.url }}" alt="">
+                </div>
+            </div>
+
+            <!-- ======================= Cards ================== -->
+            <h3>Liste des agents immobiliers</h3>
+
+            <a class="a" href="{% url 'export_users_xls' %}">excel</a>
+
+            <div class="header_fixed">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Profile</th>
+                            <th>Nom d'utilisateur</th>
+                            <th>Email</th>
+                            <th>Nom</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    {% for d in agent %}
+
+                    <tbody>
+
+                        <tr>
+                            <td>{{d.id}}</td>
+                            <td><img src="{{ d.image_profile.url}}" /></td>
+                            <td>{{ d.user.username }}</td>
+                            <td>{{ d.user.email }}</td>
+                            <td>{{d.nom}}</td>
+                            <td><button>suspendre</button></td>
+                        </tr>
+                       
+                    </tbody>
+                    {% endfor %}
+
+                </table>
+            </div>
+            <!-- ================ Order Details List ================= -->
+            
+        </div>
+    </div>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        } 
+
+        body {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+            background-color: #adacac;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .header_fixed {
+            max-height: 100vh;
+            overflow: auto;
+            border: 1px solid #dddddd;
+            margin: 10px;
+            height: 500px;
+            margin-top: 30px;
+        }
+
+        .header_fixed thead th {
+            position: sticky;
+            top: 0;
+            background-color: black;
+            color: #e6e7e8;
+            font-size: 15px;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #dddddd;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        td img {
+            height: 60px;
+            width: 60px;
+            border-radius: 100%;
+            border: 5px solid #e6e7e8;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #edeef1;
+        }
+
+        tr:hover td {
+            color: #44b478;
+            cursor: pointer;
+            background-color: #ffffff;
+        }
+
+        td button {
+            border: none;
+            padding: 7px 20px;
+            border-radius: 20px;
+            background-color: black;
+            color: #e6e7e8;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .a{
+            background-color: blue;
+            padding: 5px;
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            margin-top: 30px;
+        }
+    </style>
+    <!-- =========== Scripts =========  -->
+    <script src="{% static 'agent/js/index.js' %}"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

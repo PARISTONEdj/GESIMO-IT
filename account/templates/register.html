@@ -1,0 +1,130 @@
+{% extends "base.html"%}
+
+
+    {% block content %}
+
+
+    <div class="global-container">
+        <div>
+        <div class="card-body">
+            <h3 class="card-title text-center">S'inscrire sur GESIMO</h3>
+            <div class="card-text">
+                {% if messages %}
+                
+                        {% for message in messages %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                  
+                    {% endif %}
+                <!--
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+                <form method="post">
+                    {%  csrf_token %}
+                    
+
+                    <!-- to error: add class "has-danger" -->
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nom d'utilisateur</label>
+                        <input type="text" name="username" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Adress email</label>
+                        <input type="email" name="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Mot de passe</label>
+                        <input type="password" name="password" class="form-control form-control-sm" id="exampleInputPassword1">
+                    </div>
+                          
+                    <div class="form-group">
+                        <div class="agent">
+                            <span>Téléphone</span><br/>
+                            <input type="text" class="form-control form-control-sm" name="telephone">
+                        </div>
+                
+                        <div class="agent">
+                            <span>Raison sociale</span> <br/>
+                            <input type="text" class="form-control form-control-sm" name="raison" >
+                        </div>
+                
+                        <div>
+                            <span>Vous êtes un agent ?</span>
+                            <input type="checkbox" name="" id="checkbox">
+                        </div>
+                
+                    </div>
+
+                
+                    <!-- <a href="#" style="float:right;font-size:12px;">Forgot password?</a> -->
+
+                    <button type="submit" class="btn btn-primary btn-block mt-2">S'inscrire</button>
+                    
+                    <div class="sign-up mt-2">
+                        J'ai deja un Compte? <a href="{% url 'login_attempt'%}">Se connecter</a>
+                    </div>
+
+                </form>
+            </div>
+
+            <script>
+                let checkbox = document.querySelector('#checkbox');
+                let agents = document.querySelectorAll('.agent')
+
+                checkbox.addEventListener('click', () => {
+                    checkbox.checked ? 
+                    agents.forEach(e => {
+                        e.classList.add('visible')
+                    }) :
+                    agents.forEach(e => {
+                        e.classList.remove('visible')
+                    })
+                })
+            </script>
+
+                <style>
+                    .agent {
+                        display: none;
+                    }
+
+                    .agent.visible {
+                        display: block;
+                        margin-bottom: 10px;
+                    }
+
+                    .card login-form{
+                        padding: 70px;
+                    }
+                    .global-container{
+                        /* background-color: red; */
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .card-body{
+                        background-color: white;
+                        width: 500px;
+                        /* margin-right: 50px; */
+                    }
+                    .title text-center{
+                        font-weight: bold;
+                    }
+                </style>
+        </div>
+    </div>
+     <style>
+        .global-container{
+            margin-top: 60px;
+        }
+        .global-container input{
+            padding: 15px;
+            font-size: 15px;
+        }
+        
+     </style>
+    </div>
+    
+
+
+    {% endblock %}

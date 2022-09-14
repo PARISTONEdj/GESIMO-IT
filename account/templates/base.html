@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <title>GesImo</title>
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'acceuil/css/style.css' %}"/>
+
+    <style>
+        html,body { 
+	height: 100%; 
+}
+
+.global-container{
+	height:100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #f5f5f5;
+}
+
+form{
+	padding-top: 10px;
+	font-size: 14px;
+	margin-top: 30px;
+}
+
+.card-title{ font-weight:300; }
+
+.btn{
+	font-size: 14px;
+	margin-top:20px;
+}
+
+
+.login-form{ 
+	width:330px;
+	margin:20px;
+}
+
+.sign-up{
+	text-align:center;
+	padding:20px 0 0;
+}
+
+.alert{
+	margin-bottom:-30px;
+	font-size: 13px;
+	margin-top:20px;
+}
+    </style>
+  </head>
+  <body>
+    <header class="header">
+
+      <a href="#" class="logo">
+           {% comment %} <i class="fas fa-shopping-basket"></i>  {% endcomment %}
+          GesImo </a>
+  
+      <nav class="navbar">
+          <a href="{% url 'acceuil' %}">Accueil</a>
+          <a href="{% url 'vente' %}">Vente</a>
+          <a href="{% url 'location' %}">Location</a>
+          <a href="{% url 'login_attempt' %}">se connecter</a>
+          <a href="{% url 'register_attempt' %}">s'inscrire</a>
+      </nav>
+  
+      <div class="icons">
+          <div class="fas fa-bars" id="menu-btn"></div>
+          <div class="fas fa-search" id="search-btn"></div>
+          <div class="fas fa-shopping-cart" id="cart-btn"></div>
+          <div class="fas fa-user" id="login-btn"></div>
+      </div>
+  
+      <form action="" class="search-form">
+          <input type="search" id="search-box" placeholder="search here...">
+          <label for="search-box" class="fas fa-search"></label>
+      </form>
+  
+      <div class="shopping-cart">
+          <div class="box">
+              <i class="fas fa-trash"></i>
+              <img src="{% static 'acceuil/image/cart-img-1.png' %}" alt="">
+              <div class="content">
+                  <h3>watermelon</h3>
+                  <span class="price">$4.99/-</span>
+                  <span class="quantity">qty : 1</span>
+              </div>
+          </div>
+          <div class="box">
+              <i class="fas fa-trash"></i>
+              <img src="{% static 'acceuil/image/cart-img-2.png' %}" alt="">
+              <div class="content">
+                  <h3>onion</h3>
+                  <span class="price">$4.99/-</span>
+                  <span class="quantity">qty : 1</span>
+              </div>
+          </div>
+          <div class="box">
+              <i class="fas fa-trash"></i>
+              <img src="image/cart-img-3.png" alt="">
+              <div class="content">
+                  <h3>chicken</h3>
+                  <span class="price">$4.99/-</span>
+                  <span class="quantity">qty : 1</span>
+              </div>
+          </div>
+          <div class="total"> total : $19.69/- </div>
+          <a href="#" class="btn">checkout</a>
+      </div>
+  
+      <form action="" class="login-form">
+          <h3>login now</h3>
+          <input type="email" placeholder="your email" class="box">
+          <input type="password" placeholder="your password" class="box">
+          <p>forget your password <a href="#">click here</a></p>
+          <p>don't have an account <a href="#">create now</a></p>
+          <input type="submit" value="login now" class="btn">
+      </form>
+  
+  </header>
+    {% block content %}
+
+
+    {% endblock %}
+
+    <style>
+      .header{
+        height: 80px;
+      }
+    </style>
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+    <script src="{% static 'acceuil/js/script.js' %}"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

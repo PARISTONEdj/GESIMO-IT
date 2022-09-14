@@ -1,0 +1,56 @@
+{% extends "base.html"%}
+
+    {% block content %}
+
+
+    <div class="global-container">
+        <div class="card login-form">
+        <div class="card-body">
+            <h3 class="card-title text-center">Connexion</h3>
+            {% if messages %}
+
+            {% for message in messages %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+            {% endfor %}
+      
+        {% endif %}
+            <div class="card-text">
+                <!--
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+                <form method="post" >
+                    {% csrf_token %}
+                    <!-- to error: add class "has-danger" -->
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nom d'utilisateur</label>
+                        <input type="text" name="username" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Mot de passe</label>
+                        <a href="#" style="float:right;font-size:12px;">Mot de passe oublier?</a>
+                        <input type="password" name="password" class="form-control form-control-sm" id="exampleInputPassword1">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Se Connecter</button>
+                    
+                    <div class="sign-up">
+                        Vous n'avez pas de Compte? <a href="{% url 'register_attempt' %}">S'inscrire</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .global-container{
+            margin-top: 60px;
+        }
+        .global-container input{
+            padding: 15px;
+            font-size: 15px;
+        }
+    </style>
+    </div>
+    
+
+    {% endblock %}

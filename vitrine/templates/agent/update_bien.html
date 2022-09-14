@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annonce</title>
+    <!-- ======= Styles ====== -->
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'agent/css/index.css' %}"/>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- =============== Navigation ================ -->
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            {% comment %} <ion-icon name="logo-apple"></ion-icon> {% endcomment %}
+                        </span>
+                        <span class="title">GESIMO</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_index' %}">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'annonce' %}">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Annonce</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_profile' %}">
+                        <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                        </span>
+                        <span class="title">Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'list_blog' %}">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                        <span class="title">Blog</span> 
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_demande' %}">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Demande</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="user">
+                    <img src="assets/imgs/customer01.jpg" alt="">
+                </div>
+            </div>
+
+            <!-- ======================= Cards ================== -->
+            
+            {% for b in bien %}
+            <!-- ================ Order Details List ================= -->
+                <div class="containersa">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.media }}
+                        {{ form.as_p }}
+                        <div class="recentOrders">
+                            <div class="cardHeader">
+                                <h2>Mise a jour du bien</h2>
+                                <a href="{% url 'annonce' %}" class="btn">Mes annonces</a>
+                            </div>
+
+                        
+
+                        <div class="d1">
+                            
+                            <div class="d4">
+                                <h3>INFORMATION PRINCIPALES</h3>
+                                <div class="drop">
+                                    <p>Type de bien :   {{b.type_bien}}</p>    
+                                    <select class="form-select" aria-label="Default select example" name="type" value="{{b.type_bien}}">
+                                        <option selected>Type de bien</option>
+                                        <option value="Villa">Villa</option>
+                                        <option value="Appartement">Appartement</option>
+                                        <option value="Maison">maison</option>
+                                        <option value="burreau">burreau</option>
+                                        <option value="Appartement meublé">appartement meublé</option>
+                                    </select>
+            
+                                    
+                                </div>
+                                <div class="drop">
+                                    <p>Offre : {{b.offre}} </p>
+                                    <select class="form-select" aria-label="Default select example" name="offre" value="{{b.offre}}">
+                                        <option selected>Offre</option>
+                                        <option value="Vente">Vente</option>
+                                        <option value="Location">Location</option>
+                                    </select>
+                                </div>
+
+                                <div class="re">
+                                    <p>ville : </p>
+                                    <input type="text" placeholder="ville" name="ville" value="{{b.ville}}">
+                                </div>
+                                <div class="re">
+                                    <p>Quartier : </p>
+                                    <input type="text" placeholder="quartier" name="quartier" value="{{b.quartier}}">
+                                </div>
+                                <div class="re">
+                                    <p>Titre : </p>
+                                    <input type="text" placeholder="titre" name="titre" value="{{b.titre}}"> <br/>
+                                </div>
+                                <p>Description</p>
+                                <textarea name="description" id="" cols="40" rows="10" placeholder="description du bien"  value="{{b.description}}">{{b.description}}</textarea><br/>
+                                <div class="re">
+                                    <p>Prix : </p>
+                                    <input type="number" min="1" name="prix" placeholder="Prix" min="1"  value="{{b.prix}}"><br/>
+
+                                </div>
+                                <p>image principale</p>
+
+                                <img src="{{b.image.url}}" alt="" width="200px">
+                                <input type="file" placeholder="bien" name="logo" class="i">
+                            </div>
+
+                            <div class="d3">
+                                <h3>AUTRE INFORMATION</h3>
+                                <div class="re">
+                                    <p>Nombre de chambre : </p>
+                                    <input class="i" type="number" value="{{b.chambre}}" name="chambre" placeholder="nombre de chambre" min="0"> <br/>
+                                </div>
+                                <div class="re">
+                                    <p>Nombre de salle d'eau : </p>
+                                    <input class="i" type="number" value="{{b.douche}}" name="eau" placeholder="nombre de salle d'eau" min="0"> <br/>
+
+                                </div>
+                                <div class="re">
+                                    <p>Nombre de sallon : </p>
+                                    <input class="i" type="number" value="{{b.sallon}}" name="sallon" placeholder="nombre de sallon" min="0"> <br/>
+                                </div><div class="re">
+                                    <p>Superficie : </p>
+                                    <input type="number" class="i" value="{{b.superficie}}" name="superficie" placeholder="superficie" min="0"> <br/>
+                                </div>
+
+
+                                <p>AUTRE IMAGE</p>
+                                <input type="file" multiple="multiple" name="image" >
+                            </div>
+                        </div> 
+                        <button type="submit">valider</button>
+
+                    
+                    </form>
+
+                    <!-- ================= New Customers ================ -->
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+
+
+   <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        
+        body{
+        
+        background: gray
+        }
+        .re{
+            display: flex;
+        }
+        .containersa{
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+            margin-left: 70px;
+            margin-right: 70px;
+          }
+
+          .cardHeader{
+            display: flex;
+            justify-content: space-between;
+          }
+
+        .containersa select{
+            padding: 5px;
+            font-size: 15px;
+            color: gray;
+            margin-top: 10px;
+        }
+
+        .drop{
+            display: flex;
+            width: 400px;
+            justify-content: space-between;
+        }
+
+        .containersa textarea{
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+           
+        }
+
+        .d1{
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .d2{
+            padding: 5px;
+            margin-top: 10px;
+        }
+        .d2 input{
+            padding: 5px;
+            
+        }
+        .d3 .i{
+            padding: 4px;
+            width: 50%;
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        .d1 p{
+            margin-top: 10px;
+            color: gray;
+            margin-bottom: 10px;
+        }
+        .d4 input{
+            padding: 5px;
+            margin-top: 10px;
+            width: 50%;
+            margin-left: 20px;
+        }
+        .containersa button{
+            width: 100%;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            font-size: 15px;
+            border: 1px solid blue;
+        }
+        .d1 h3{
+            color: gray;
+        }
+
+        .d1 i{
+            margin-top: 10px;
+        }
+        
+   </style>
+
+    <!-- =========== Scripts =========  -->
+    <script src="{% static 'agent/js/index.js' %}"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

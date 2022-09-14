@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'acceuil/css/style.css' %}"/>
+    <link rel="stylesheet" type ="text/css" href="{% static 'acceuil/css/styles.css' %}"/>
+
+
+</head>
+<body>
+    <header class="header">
+
+        <a href="#" class="logo"> 
+            {% comment %} <i class="fas fa-shopping-basket"> {% endcomment %}
+
+            </i> GesImo </a>
+    
+            <nav class="navbar">
+        
+                {% if user.is_authenticated %}
+                    {% if user.profile.type == 2 %}
+                        <a href="{% url 'acceuil' %}">Accueil</a>
+                        <a href="{% url 'vente' %}">Vente</a>
+                        <a href="{% url 'location' %}">Location</a>
+                        <a href="{% url 'client_demande' %}">Demande</a>
+                        <a href="">Profile</a>
+                        <a href="{% url 'blog_client' %}">Blog</a>
+                        <a href="{% url 'logout' %}">Deconnexion</a>
+                    {% endif %}
+                {% else %}  
+                    <a href="{% url 'acceuil' %}">Accueil</a>
+                    <a href="{% url 'vente' %}">Vente</a>
+                    <a href="{% url 'location' %}">Location</a>
+                    <a href="{% url 'login_attempt' %}">se connecter</a>
+                    <a href="{% url 'register_attempt' %}">s'inscrire</a>  
+                {% endif %}
+            </nav>
+    
+        <div class="icons">
+            {% comment %} <div class="fas fa-bars" id="menu-btn"></div>
+            <div class="fas fa-search" id="search-btn"></div>
+            <div class="fas fa-shopping-cart" id="cart-btn"></div>
+            <div class="fas fa-user" id="login-btn"></div> {% endcomment %}
+        </div>
+    
+        <form action="" class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </form>
+    
+        <div class="shopping-cart">
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-1.png" alt="">
+                <div class="content">
+                    <h3>watermelon</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-2.png" alt="">
+                <div class="content">
+                    <h3>onion</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-3.png" alt="">
+                <div class="content">
+                    <h3>chicken</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="total"> total : $19.69/- </div>
+            <a href="#" class="btn">checkout</a>
+        </div>
+    
+        <form action="" class="login-form">
+            <h3>login now</h3>
+            <input type="email" placeholder="your email" class="box">
+            <input type="password" placeholder="your password" class="box">
+            <p>forget your password <a href="#">click here</a></p>
+            <p>don't have an account <a href="#">create now</a></p>
+            <input type="submit" value="login now" class="btn">
+        </form>
+    
+    </header>
+
+    <section class="home" id="home">
+
+        <div class="content">
+            <h3>Bienvenu sur  <span>GesImo</span></h3>
+            <p>Decouvrez la liste de nos biens en vente</p>
+
+            <div>
+                <form action="{% url 'rech_bien' %}" method="post">
+                    {% csrf_token %}
+                    <input type="search" name="description" id="" placeholder="titre">
+                    <input type="search" name="ville" id="" placeholder="ville">
+                    <input type="search" name="type" placeholder="type de bien">
+                    <input type="search" name="quartier" placeholder="quartier">
+                    <button type="submit" class="btn">Recherche</button>
+                </form>
+            </div>
+        </div>
+
+    
+    </section>
+
+
+    <section class="featured" id="featured" id="products">
+
+        <h1 class="heading"> Nos Bien<span>en vente</span>  </h1>
+    
+        <div class="box-container">
+
+            {% for b in ven %}
+    
+                <div class="box">
+                    <div class="image-container">
+                        <img src="{{ b.image.url}}" alt="">
+                        <div class="info">
+                            <h3>{{ b.date_publication }}</h3>
+                            <h3>{{b.offre}}</h3>
+                        </div>
+                        <div class="icons">
+                            <a href="#" class="fas fa-film"><h3>1</h3></a>
+                            <a href="#" class="fas fa-camera"><h3>4</h3></a>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="price">
+                            <h3>{{b.prix}} FCFA</h3>
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" class="fas fa-envelope"></a>
+                            <a href="#" class="fas fa-phone"></a>
+                        </div>
+                        <div class="location">
+                            <h3>{{b.titre}}</h3>
+                            <p>{{b.description}}</p>
+                        </div>
+                        <div class="details">
+                            <h3> <i class="fas fa-expand"></i> {{b.superficie}} m² </h3>
+                            <h3> <i class="fas fa-bed"></i> {{b.chambre}} </h3>
+                            <h3> <i class="fas fa-bath"></i> {{b.douche}} </h3>
+                        </div>
+                        <div class="buttons">
+                            <a href="{% url 'detail' b.id%}" class="btn">voire plus</a>
+
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+    
+        </div>
+        
+    </section>
+
+
+    <center>
+        <div class='pag'>
+            <div class="pagination">
+            <a href="#">&laquo;</a>
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">&raquo;</a>
+            </div>
+        </div>
+    </center>
+
+    
+    <section class="footer">
+
+        <div class="box-container">
+    
+            <div class="box">
+                <h3> GesImo <i class="fas fa-shopping-basket"></i> </h3>
+                <a href="#" class="links">  Comment ca marche </a>
+                <a href="#" class="links"> Foire aux questions </a>
+                <a href="#" class="links"> </i> A propos </a>
+                <a href="#" class="links"> </i> Politique de Confidentialité </a>
+                <a href="#" class="links"></i> Contact</a>
+            </div>
+    
+    
+    
+    
+            <div class="box">
+                <h3>Information</h3>
+                <a href="#" class="links">  Tarif </a>
+                <a href="#" class="links">  Moyen de payement </a>
+                <a href="#" class="links">  Bien en Vente </a>
+                <a href="#" class="links">  Bien en Location </a>
+                <a href="#" class="links">  Agence immobiliere </a>
+            </div>
+    
+           
+    
+            <div class="box">
+                <h3>Liens Utiles</h3>
+                <a href="#" class="links">  Agence immobiliere </a>
+                <a href="#" class="links">  Temoignage </a>
+                <a href="#" class="links">  partenaire </a>
+                <a href="#" class="links">  Terme et Condition </a>
+                <a href="#" class="links">  Application Mobile </a>
+    
+            </div>
+    
+            <div class="box">
+                <h3>Mention Legale</h3>
+                <a href="#" class="links">  Condition de vente </a>
+                <a href="#" class="links">  Ressource Utile </a>
+                <a href="#" class="links">  Cadastre </a>
+                <a href="#" class="links">  Limitation de responsabilité </a>
+                <div class="share">
+                    <a href="#" class="fab fa-facebook-f"></a>
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+    
+    
+        </div>
+    
+        <div class="credit"> created by <span> &copy;PARISTONE DJ </span> | all rights reserved </div>
+    
+    </section>
+
+
+    <script src="{% static 'acceuil/js/script.js' %}"></script>
+
+</body>
+</html>

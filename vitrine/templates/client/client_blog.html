@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOG</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'acceuil/css/style.css' %}"/>
+    <link rel="stylesheet" type ="text/css" href="{% static 'acceuil/css/styles.css' %}"/>
+
+
+</head>
+<body>
+    <header class="header">
+
+        <a href="#" class="logo"> 
+            {% comment %} <i class="fas fa-shopping-basket"> {% endcomment %}
+
+            </i> GesImo </a>
+    
+            <nav class="navbar">
+        
+                {% if user.is_authenticated %}
+                    {% if user.profile.type == 2 %}
+                        <a href="{% url 'acceuil' %}">Accueil</a>
+                        <a href="{% url 'vente' %}">Vente</a>
+                        <a href="{% url 'location' %}">Location</a>
+                        <a href="{% url 'client_demande' %}">Demande</a>
+                        <a href="">Profile</a>
+                        <a href="{% url 'blog_client' %}">Blog</a>
+
+                        <a href="{% url 'logout' %}">Deconnexion</a>
+                    {% endif %}
+                {% else %}  
+                    <a href="{% url 'acceuil' %}">Accueil</a>
+                    <a href="{% url 'vente' %}">Vente</a>
+                    <a href="{% url 'location' %}">Location</a>
+                    <a href="{% url 'login_attempt' %}">se connecter</a>
+                    <a href="{% url 'register_attempt' %}">s'inscrire</a>  
+                {% endif %}
+            </nav>
+    
+        <div class="icons">
+            {% comment %} <div class="fas fa-bars" id="menu-btn"></div>
+            <div class="fas fa-search" id="search-btn"></div>
+            <div class="fas fa-shopping-cart" id="cart-btn"></div>
+            <div class="fas fa-user" id="login-btn"></div> {% endcomment %}
+        </div>
+    
+        <form action="" class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </form>
+    
+        <div class="shopping-cart">
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-1.png" alt="">
+                <div class="content">
+                    <h3>watermelon</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-2.png" alt="">
+                <div class="content">
+                    <h3>onion</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-3.png" alt="">
+                <div class="content">
+                    <h3>chicken</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="total"> total : $19.69/- </div>
+            <a href="#" class="btn">checkout</a>
+        </div>
+    
+        <form action="" class="login-form">
+            <h3>login now</h3>
+            <input type="email" placeholder="your email" class="box">
+            <input type="password" placeholder="your password" class="box">
+            <p>forget your password <a href="#">click here</a></p>
+            <p>don't have an account <a href="#">create now</a></p>
+            <input type="submit" value="login now" class="btn">
+        </form>
+    
+    </header>
+
+    <div class="details">
+        <div class="recentOrders">
+            <div class="cardHeader">
+                <h2>Page de blog</h2>
+                {% if request.user.profile.type == 1 %}
+                    <a href="{% url 'add_blog' %}" class="btn">Mes publications</a>
+                {% endif %}
+            </div>
+
+        <!-- ================= New Customers ================ -->
+
+            <div>
+                <h2>Nouveauté sur l'immobilier</h2>
+                <section class="articles">
+                    {% for d in blog_list %}
+
+                    <div class="article">
+                     <div class="left">
+                       <img src="{{d.image.url}}" alt="">
+                     </div>
+                     <div class="right">
+                       <p class="date">Publier le {{ d.date }}</p>
+                       <h1>{{ d.titre }}</h1>
+                       <p class="description"> {{ d.contenu }}</p>
+                       <p class="auteur">Auteur: {{ d.user.username }} </p>
+                       <div class="d">
+                            <div>
+                            <form method="post"> 
+                                {% csrf_token %}  
+                                <input type="text" placeholder="Faire un commentaire" name="commentaire" class="in" required>
+                                <input type="hidden" name="id" value="{{d.id}}">
+                                <button type="submit">Valider</button>
+                            </form>  
+                            </div>
+                            <div>
+                                <a href="{% url 'detail_blog' d.id%}"><button id="modal-btn" class="button">Voire les commentaires</button></a>
+                            </div>
+                        
+                        </div>
+                     </div>
+                   </div> 
+
+                    <div id="my-modal" class="modal">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="close">&times;</span>
+                            <h2>Liste des commentaires</h2>
+                            
+                        </div>
+                        <div class="modal-body">
+                            <p>Liste des commentaires</p>
+                            {% for d in co %}
+                                <p>{{d.commentaire}}</p>
+                                <p>{{d.user.username}}</p>
+                            {% endfor %}
+
+                        </div>
+                        <div class="modal-footer">
+                            <h3>GesImo</h3>
+                        </div>
+                        </div>
+                    </div>
+
+                   {% endfor %}
+                   
+                 </section>
+                 
+                 
+            </div>
+
+            
+        </div>
+    </div> 
+    
+    <section class="footer">
+
+        <div class="box-container">
+    
+            <div class="box">
+                <h3> GesImo <i class="fas fa-shopping-basket"></i> </h3>
+                <a href="#" class="links">  Comment ca marche </a>
+                <a href="#" class="links"> Foire aux questions </a>
+                <a href="#" class="links"> </i> A propos </a>
+                <a href="#" class="links"> </i> Politique de Confidentialité </a>
+                <a href="#" class="links"></i> Contact</a>
+            </div>
+    
+    
+    
+    
+            <div class="box">
+                <h3>Information</h3>
+                <a href="#" class="links">  Tarif </a>
+                <a href="#" class="links">  Moyen de payement </a>
+                <a href="#" class="links">  Bien en Vente </a>
+                <a href="#" class="links">  Bien en Location </a>
+                <a href="#" class="links">  Agence immobiliere </a>
+            </div>
+    
+           
+    
+            <div class="box">
+                <h3>Liens Utiles</h3>
+                <a href="#" class="links">  Agence immobiliere </a>
+                <a href="#" class="links">  Temoignage </a>
+                <a href="#" class="links">  partenaire </a>
+                <a href="#" class="links">  Terme et Condition </a>
+                <a href="#" class="links">  Application Mobile </a>
+    
+            </div>
+    
+            <div class="box">
+                <h3>Mention Legale</h3>
+                <a href="#" class="links">  Condition de vente </a>
+                <a href="#" class="links">  Ressource Utile </a>
+                <a href="#" class="links">  Cadastre </a>
+                <a href="#" class="links">  Limitation de responsabilité </a>
+                <div class="share">
+                    <a href="#" class="fab fa-facebook-f"></a>
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+    
+    
+        </div>
+    
+        <div class="credit"> created by <span> &copy;PARISTONE DJ </span> | all rights reserved </div>
+    
+    </section>
+
+
+    <style>
+
+        p{
+            font-size: 15px;
+        }
+
+        h2{
+            font-size: 20px;
+        }
+        .details{
+            width: 100%;
+            margin: 80px;
+        }
+
+        
+        .buttons a{
+            text-decoration: none;
+            background-color: blue;
+            color: white;
+            text-align: center;
+            margin-right: 30px;
+        }
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&display=swap');
+        body{
+        font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        
+
+        .articles{
+        margin-top: 30px;
+        }
+        .articles .article{
+        display: flex;
+        flex-wrap:wrap;
+        margin-bottom: 30px;
+        }
+        .articles .article .left img{
+        height: 300px;
+        width: 800px;
+        }
+        .articles .article .right {
+        margin-left: 40px;
+        max-width: 70%;
+        }
+        .articles .article .right p.date{
+        color: #7f7e7e;
+        }
+        .articles .article .right p.description{
+        color: #2d2d2d;
+        }
+
+        
+
+        @media screen and (max-width: 640px){
+        body{
+            margin: 10px 20px;
+        }
+        nav .onglets{
+            margin-top: -10px;
+        }
+        .articles .article .left img{
+            height: 100%;
+            width:100%;
+        }
+        .articles .article .right{
+            margin: 0px;
+            max-width: 100%;
+        }
+        footer .social-media{
+            margin-top: -20px;
+        }
+        }
+
+        .in{
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px grey solid;
+            margin-right: 20px;
+            width: 300px;
+        }
+
+        .d a{
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .d{
+            display: flex;
+            justify-content: space-between;
+            width: 600px;
+        }
+
+
+        :root {
+            --modal-duration: 1s;
+            --modal-color: #428bca;
+          }
+          
+          .button {
+            background: #428bca;
+            padding: 1em 2em;
+            color: #fff;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          
+          .button:hover {
+            background: #3876ac;
+          }
+          
+          .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+          
+          .modal-content {
+            margin: 10% auto;
+            width: 60%;
+            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+            animation-name: modalopen;
+            animation-duration: var(--modal-duration);
+          }
+          
+          .modal-header h2,
+          .modal-footer h3 {
+            margin: 0;
+          }
+          
+          .modal-header {
+            background: var(--modal-color);
+            padding: 15px;
+            color: #fff;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+          
+          .modal-body {
+            padding: 10px 20px;
+            background: #fff;
+          }
+          
+          .modal-footer {
+            background: var(--modal-color);
+            padding: 10px;
+            color: #fff;
+            text-align: center;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+          }
+          
+          .close {
+            color: #ccc;
+            float: right;
+            font-size: 30px;
+            color: #fff;
+          }
+          
+          .close:hover,
+          .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+          }
+          
+          @keyframes modalopen {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          
+        
+    </style>
+    <script src="{% static 'acceuil/js/script.js' %}"></script>
+
+</body>
+</html>

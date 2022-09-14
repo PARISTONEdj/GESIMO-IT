@@ -1,0 +1,31 @@
+.gallery{
+  padding: 2rem ;
+  width: 100%;
+}
+
+.main-gallery{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.gallery h1{
+  color: black;
+  font-size: 40px;
+  text-align: center;
+  padding: 2rem;
+}
+.gallery h1 span{
+  color: blue;
+}
+
+.inner-gallery img{
+  width: 100%;
+}
+
+
+.ima{
+  height: 200px;
+}

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>liste des blog</title>
+    <!-- ======= Styles ====== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'agent/css/index.css' %}"/>
+    <link rel="stylesheet" type ="text/css" href="{% static 'css/mobile.css' %}"/>
+    <link rel="stylesheet" type ="text/css" href="{% static 'css/utils.css' %}"/>
+    <link rel="stylesheet" type ="text/css" href="{% static 'css/style.css' %}"/>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+</head>
+
+<body>
+    <!-- =============== Navigation ================ -->
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            {% comment %} <ion-icon name="logo-apple"></ion-icon> {% endcomment %}
+                        </span>
+                        <span class="title">GESIMO</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_index' %}">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'annonce' %}">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Annonce</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_profile' %}">
+                        <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                        </span>
+                        <span class="title">Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'list_blog' %}">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                        <span class="title">Blog</span> 
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_demande' %}">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Demande</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+
+                <div class="user">
+                    <img src="assets/imgs/customer01.jpg" alt="">
+                </div>
+            </div>
+
+            <!-- ======================= Cards ================== -->
+            
+
+            <!-- ================ Order Details List ================= -->
+            
+
+                    <div class="details">
+                        <div class="recentOrders">
+                            <div class="cardHeader">
+                                <h2>Page de blog</h2>
+                                {% if request.user.profile.type == 1 %}
+                                    <a href="{% url 'add_blog' %}" class="btn">Mes publications</a>
+                                {% endif %}
+                            </div>
+        
+                        <!-- ================= New Customers ================ -->
+
+                            <div>
+                                <h2>Nouveauté sur l'immobilier</h2>
+                                <section class="articles">
+                                    {% for d in blog_list %}
+
+                                    <div class="article">
+                                     <div class="left">
+                                       <img src="{{d.image.url}}" alt="">
+                                     </div>
+                                     <div class="right">
+                                       <p class="date">Publier le {{ d.date }}</p>
+                                       <h1>{{ d.titre }}</h1>
+                                       <p class="description"> {{ d.contenu }}</p>
+                                       <p class="auteur">Auteur: {{ d.user.username }} </p>
+                                       <div class="d">
+                                            <div>
+                                            <form method="post"> 
+                                                {% csrf_token %}  
+                                                <input type="text" placeholder="Faire un commentaire" name="commentaire" class="in">
+                                                <input type="hidden" name="id" value="{{d.id}}">
+                                                <button type="submit">Valider</button>
+                                            </form>  
+                                            </div>
+                                            <div>
+                                                <button id="modal-btn" class="button">Voire les commentaires</button>
+                                            </div>
+                                        
+                                        </div>
+                                     </div>
+                                   </div> 
+
+                                    <div id="my-modal" class="modal">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <span class="close">&times;</span>
+                                            <h2>Liste des commentaires</h2>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Liste des commentaires</p>
+                                            {% for d in co %}
+                                                <p>{{d.commentaire}}</p>
+                                            {% endfor %}
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <h3>GesImo</h3>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                   {% endfor %}
+                                   
+                                 </section>
+                                 
+                                 
+                            </div>
+
+                            
+                        </div>
+                    </div> 
+                   
+        </div>
+    </div>
+
+
+    <style>
+
+       
+        .details{
+            width: 100%;
+        }
+
+        .recentOrders{
+            background-color: yellow;
+            width: 1000px;
+        }
+        
+        .buttons a{
+            text-decoration: none;
+            background-color: blue;
+            color: white;
+            text-align: center;
+            margin-right: 30px;
+        }
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&display=swap');
+        body{
+        font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        
+
+        .articles{
+        margin-top: 30px;
+        }
+        .articles .article{
+        display: flex;
+        flex-wrap:wrap;
+        margin-bottom: 30px;
+        }
+        .articles .article .left img{
+        height: 300px;
+        width: 800px;
+        }
+        .articles .article .right {
+        margin-left: 40px;
+        max-width: 70%;
+        }
+        .articles .article .right p.date{
+        color: #7f7e7e;
+        }
+        .articles .article .right p.description{
+        color: #2d2d2d;
+        }
+
+        
+
+        @media screen and (max-width: 640px){
+        body{
+            margin: 10px 20px;
+        }
+        nav .onglets{
+            margin-top: -10px;
+        }
+        .articles .article .left img{
+            height: 100%;
+            width:100%;
+        }
+        .articles .article .right{
+            margin: 0px;
+            max-width: 100%;
+        }
+        footer .social-media{
+            margin-top: -20px;
+        }
+        }
+
+        .in{
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px grey solid;
+            margin-right: 20px;
+        }
+
+        .d a{
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .d{
+            display: flex;
+            justify-content: space-between;
+            width: 600px;
+        }
+
+
+        :root {
+            --modal-duration: 1s;
+            --modal-color: #428bca;
+          }
+          
+          .button {
+            background: #428bca;
+            padding: 1em 2em;
+            color: #fff;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          
+          .button:hover {
+            background: #3876ac;
+          }
+          
+          .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+          
+          .modal-content {
+            margin: 10% auto;
+            width: 60%;
+            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+            animation-name: modalopen;
+            animation-duration: var(--modal-duration);
+          }
+          
+          .modal-header h2,
+          .modal-footer h3 {
+            margin: 0;
+          }
+          
+          .modal-header {
+            background: var(--modal-color);
+            padding: 15px;
+            color: #fff;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+          
+          .modal-body {
+            padding: 10px 20px;
+            background: #fff;
+          }
+          
+          .modal-footer {
+            background: var(--modal-color);
+            padding: 10px;
+            color: #fff;
+            text-align: center;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+          }
+          
+          .close {
+            color: #ccc;
+            float: right;
+            font-size: 30px;
+            color: #fff;
+          }
+          
+          .close:hover,
+          .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+          }
+          
+          @keyframes modalopen {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          
+        
+    </style>
+    <!-- =========== Scripts =========  -->
+
+    <script>
+        const modal = document.querySelector('#my-modal');
+        const modalBtn = document.querySelector('#modal-btn');
+        const closeBtn = document.querySelector('.close');
+
+// Events
+            modalBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', outsideClick);
+
+            // Open
+            function openModal() {
+            modal.style.display = 'block';
+            }
+
+            // Close
+            function closeModal() {
+            modal.style.display = 'none';
+            }
+
+            // Close If Outside Click
+            function outsideClick(e) {
+            if (e.target == modal) {
+                modal.style.display = 'none';
+            }
+            }
+
+    </script>
+    <script src="{% static 'agent/js/index.js' %}"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

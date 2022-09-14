@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Responsive Grocery Website Design Tutorial</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css">
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'acceuil/css/style.css' %}"/>
+    <link rel="stylesheet" type ="text/css" href="{% static 'acceuil/css/styles.css' %}"/>
+
+
+</head>
+<body>
+
+    <header class="header">
+
+        <a href="#" class="logo">
+             {% comment %} <i class="fas fa-shopping-basket"></i>  {% endcomment %}
+            GesImo </a>
+    
+            <nav class="navbar">
+        
+                {% if user.is_authenticated %}
+                    {% if user.profile.type == 2 %}
+                        <a href="{% url 'acceuil' %}">Accueil</a>
+                        <a href="{% url 'vente' %}">Vente</a>
+                        <a href="{% url 'location' %}">Location</a>
+                        <a href="{% url 'client_demande' %}">Demande</a>
+                        <a href="">Profile</a>
+                        <a href="{% url 'logout' %}">Deconnexion</a>
+                    {% endif %}
+                {% else %}  
+                    <a href="{% url 'acceuil' %}">Accueil</a>
+                    <a href="{% url 'vente' %}">Vente</a>
+                    <a href="{% url 'location' %}">Location</a>
+                    <a href="{% url 'login_attempt' %}">se connecter</a>
+                    <a href="{% url 'register_attempt' %}">s'inscrire</a>  
+                {% endif %}
+            </nav>
+    
+        <div class="icons">
+            {% comment %} <div class="fas fa-bars" id="menu-btn"></div>
+            <div class="fas fa-search" id="search-btn"></div>
+            <div class="fas fa-shopping-cart" id="cart-btn"></div>
+            <div class="fas fa-user" id="login-btn"></div> {% endcomment %}
+            
+        </div>
+    
+        <form action="" class="search-form">
+            <input type="search" id="search-box" placeholder="search here...">
+            <label for="search-box" class="fas fa-search"></label>
+        </form>
+    
+        <div class="shopping-cart">
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="{% static 'acceuil/image/cart-img-1.png' %}" alt="">
+                <div class="content">
+                    <h3>watermelon</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="{% static 'acceuil/image/cart-img-2.png' %}" alt="">
+                <div class="content">
+                    <h3>onion</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="box">
+                <i class="fas fa-trash"></i>
+                <img src="image/cart-img-3.png" alt="">
+                <div class="content">
+                    <h3>chicken</h3>
+                    <span class="price">$4.99/-</span>
+                    <span class="quantity">qty : 1</span>
+                </div>
+            </div>
+            <div class="total"> total : $19.69/- </div>
+            <a href="#" class="btn">checkout</a>
+        </div>
+    
+        <form action="" class="login-form">
+            <h3>login now</h3>
+            <input type="email" placeholder="your email" class="box">
+            <input type="password" placeholder="your password" class="box">
+            <p>forget your password <a href="#">click here</a></p>
+            <p>don't have an account <a href="#">create now</a></p>
+            <input type="submit" value="login now" class="btn">
+        </form>
+    
+    </header>
+            <!-- ================ Order Details List ================= -->
+            <div class="det">
+                <div class="recent">
+                    <div class="car">
+                        
+                    </div>
+
+                    <div class="demande">
+                        <div class="cardHeader">
+                            <h2>Nouvelle demande client</h2> <br/>
+                        </div>
+                        {% for message in messages %}
+                            <div class="alert alert-info">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        <form method="post" id="myform">
+                            {% csrf_token %}
+                            <div>
+                                <Textarea class="text" rows="5" placeholder="Contenu de la demande" name="contenu" id="texte" required></Textarea>
+                                <button type="submit" class="bt">valider</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ================= New Customers ================ -->
+               
+            </div>
+            <h2 class="h">Mes demandes</h2>
+
+            <table>
+
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                    {% for d in demande_list %}
+                        <tr>
+                            <td>{{ d.id }}</td>
+                            <td>{{ d.mademande }}</td>
+                            <td>{{ d.date }}</td>
+                            <td><a href="{% url 'delete_demande' d.id %}" class="status delivered">Annuler</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+    
+<style>
+
+    .h{
+        margin-left: 100px;
+    }
+    .bt{
+        padding:5px;
+        background-color: blue;
+        color: white;
+    }
+
+    .det{
+        margin-top: 100px;
+        padding: 30px;
+    }
+
+    *,
+    *::before,
+    *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    }
+
+    body {
+    font-family: Lato, sans-serif;
+    justify-content: center;
+    align-items: center;
+    color: #4f546c;
+    background-color: #f3f8fe;
+    }
+
+    table {
+    border-collapse: collapse;
+    box-shadow: 20px 20px 20px 5px #a7bad3;
+    background-color: white;
+    text-align: left;
+    width: 80%;
+    margin-left: 100px;
+    }
+
+    th {
+        background-color:  #d0def2;
+        padding: 0.75rem 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        font-size: 1.5rem;
+        font-weight: 900;
+    }
+
+    td {
+        padding: 1rem 2rem;
+        font-size: 20px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f3f8fe;
+    }
+
+    table a{
+        text-decoration: none;
+        background-color: aqua;
+        padding: 3px;
+        border-radius: 4px;
+    }
+    .text{
+        border-radius: 5px;
+        padding: 10px;
+    }
+</style>
+   

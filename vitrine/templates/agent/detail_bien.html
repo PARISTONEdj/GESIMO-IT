@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail bien</title>
+    <!-- ======= Styles ====== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" type ="text/css" href="{% static 'agent/css/index.css' %}"/>
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+</head>
+
+<body>
+    <!-- =============== Navigation ================ -->
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            {% comment %} <ion-icon name="logo-apple"></ion-icon> {% endcomment %}
+                        </span>
+                        <span class="title">GESIMO</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_index' %}">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'annonce' %}">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Annonce</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_profile' %}">
+                        <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                        </span>
+                        <span class="title">Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'list_blog' %}">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                        <span class="title">Blog</span> 
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'agent_demande' %}">
+                        <span class="icon">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </span>
+                        <span class="title">Demande</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+
+                <div class="user">
+                    <img src="assets/imgs/customer01.jpg" alt="">
+                </div>
+            </div>
+
+            <!-- ======================= Cards ================== -->
+            
+
+            <!-- ================ Order Details List ================= -->
+            
+
+                    <div class="detail">
+                        <div class="recentOrders">
+                            <div class="cardHeader">
+                                <h2>Detail sur l'annonce</h2>
+                                <a href="{% url 'annonce' %}" class="btn">Mes annonces</a>
+                            </div>
+
+
+                            <section class="featured" id="featured" id="products">
+
+                                <h1 class="heading"> Detail sur le bien<span>le bien</span>  </h1>
+                            
+                                {% for b in bien %}
+                        
+                                <div class="box-container">
+                            
+                                    <div class="box">
+                                        <div class="image-container">
+                                            <img src="{{ b.image.url}}" alt="" height="300px" class="ima">
+                                            <div class="info">
+                                                <h3>{{ b.date_publication }}</h3>
+                                                <h3>{{b.offre}}</h3>
+                                                <h3>{{b.ville}}</h3>
+                                                <h3>{{b.quartier}}</h3>
+                        
+                                            </div>
+                                            <div class="icons">
+                                                <a href="#" class="fas fa-film"><h3>1</h3></a>
+                                                <a href="#" class="fas fa-camera"><h3>4</h3></a>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <div class="price">
+                                                <h3>{{b.prix}} FCFA</h3>
+                                                <a href="#" class="fas fa-heart"></a>
+                                                <a href="#" class="fas fa-envelope"></a>
+                                                <a href="#" class="fas fa-phone"></a>
+                                            </div>
+                                            <div class="location">
+                                                <h3>{{b.titre}}</h3>
+                                                <p>{{b.description}}</p>
+                                            </div>
+                                            <div class="details">
+                                                <h3> <i class="fas fa-expand"></i> {{b.superficie}} sqft </h3>
+                                                <h3> <i class="fas fa-bed"></i> {{b.chambre}} </h3>
+                                                <h3> <i class="fas fa-bath"></i> {{b.douche}} </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="infos">
+                                        <h3>publier par {{ b.user.username }}</h3>
+                                        <p> {{b.user.profile.raison}}</p>
+                                        <p>contact : {{b.user.profile.telephone}}</p>
+                                        <p>Mail {{ b.user.email}}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                
+                            </section>
+
+                            
+                            
+                        </div>
+        
+                    </div>
+
+
+                
+        </div>
+    </div>
+
+
+    <style>
+
+       
+        .detail{
+            width: 100%;
+            justify-content: none;
+            align-items: initial;
+            margin: 20PX;
+        }
+
+        .recentOrders{
+            width: 1000px;
+            justify-content: space-between;
+        }
+        
+        .buttons a{
+            text-decoration: none;
+            background-color: blue;
+            color: white;
+            text-align: center;
+        }
+
+        .cardHeader{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .featured .box-container{
+            display: flex;
+            flex-wrap: wrap;
+            gap:1.5rem;
+        }
+        
+        .featured .box-container .box{
+            border:.1rem solid rgba(0,0,0,.2);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+            border-radius: .5rem;
+            overflow:hidden;
+            background:#fff;
+            flex:1 1 30rem;
+        }
+        
+        .featured .box-container .box .image-container{
+            overflow:hidden;
+            position: relative;
+            width: 100%;
+            height: 25rem;
+        }
+        
+        .featured .box-container .box .image-container img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .2s linear;
+        }
+        
+        .featured .box-container .box:hover .image-container img{
+            transform: scale(1.1);
+        }
+        
+        .featured .box-container .box .image-container .info{
+            position: absolute;
+            top:1rem; left:0;
+            display: flex;
+        }
+        
+        .featured .box-container .box .image-container .info h3{
+            font-weight: 500;
+            font-size: 1.4rem;
+            color:#fff;
+            background:rgba(0,0,0,.3);
+            border-radius: .5rem;
+            padding:.5rem 1.5rem;
+            margin-left: 1rem;
+        }
+        
+        .featured .box-container .box .image-container .icons{
+            position: absolute;
+            bottom:1rem; right:0;
+            display: flex;
+        }
+        
+        .featured .box-container .box .image-container .icons a{
+            font-size: 1.4rem;
+            color:#fff;
+            display: flex;
+            border-radius: .5rem;
+            background: rgba(0,0,0,.3);
+            margin-right: 1rem;
+            padding:.7rem;
+        }
+        
+        .featured .box-container .box .image-container .icons a h3{
+            font-weight: 500;
+            padding-left: .5rem;
+        }
+        
+        .featured .box-container .box .image-container .icons a:hover{
+            background:var(--red);
+        }
+        
+        .featured .box-container .box .content{
+            padding:1.5rem;
+        }
+        
+        .featured .box-container .box .content .price{
+            display: flex;
+            align-items: center;
+        }
+        
+        .featured .box-container .box .content .price h3{
+            color:var(--red);
+            font-size: 2rem;
+            margin-right: auto;
+        }
+        
+        .featured .box-container .box .content .price a{
+            color:#666;
+            font-size: 1.5rem;
+            margin-right: .5rem;
+            border-radius: .5rem;
+            height:4rem;
+            width:4rem;
+            line-height: 4rem;
+            text-align: center;
+            background:#f7f7f7;
+        }
+        
+        .featured .box-container .box .content .price a:hover{
+            background:var(--red);
+            color:#fff;
+        }
+        
+        .featured .box-container .box .content .location{
+            padding:1rem 0;
+        }
+        
+        .featured .box-container .box .content .location h3{
+            font-size: 2.5rem;
+            color:#333;
+        }
+        
+        .featured .box-container .box .content .location p{
+            font-size: 1.5rem;
+            color:#666;
+            line-height: 1.5;
+            padding-top: .5rem;
+        }
+        
+        .featured .box-container .box .content .details{
+            padding:.5rem 0;
+            display: flex;
+        }
+        
+        .featured .box-container .box .content .details h3{
+            flex:1;
+            padding:1rem;
+            border:.1rem solid rgba(0,0,0,.1);
+            color:#999;
+            font-size: 1.3rem;
+        }
+        
+        .featured .box-container .box .content .details h3 i{
+            color:#333;
+            padding-left: .5rem;
+        }
+        
+        .featured .box-container .box .content .buttons{
+            display: flex;
+            gap:1rem;
+        }
+        
+        .featured .box-container .box .content .buttons .btn{
+            flex:1;
+            font-size: 1.5rem;
+        }
+        
+    </style>
+    <!-- =========== Scripts =========  -->
+    <script src="{% static 'agent/js/index.js' %}"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
